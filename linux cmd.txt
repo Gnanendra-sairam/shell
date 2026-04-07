@@ -1,0 +1,136 @@
+sudo su--->used to switch form the standard user to root user
+whoami--->used to know what type of user you are 
+/ ---> this is a top level directory.it is a parent directory of all other directories and it is called as root directory
+in the main directory we have some directories like root , home , bin , sbin ,boot , dev , etc , usr , var  etc--
+/root--->it is the home directory for root user
+/home--->it is the home directory for other users
+/bin--->it consists commands used by all users
+/sbin-->it consists of commands used by root user only
+/boot--->all boot related files are in this directory that are used to boot the os
+/dev--> it consists of device files like hard disk
+/etc--->contains all system level configurations like passwards,user info
+/usr --->used to store the user-related programs, libraries and data files
+/var---->it has the data that changes frequently while the system is running 
+=====================================================================================================================
+BASIC COMMANDS OF LINUX:-    
+pwd---> present working directory-->used to print your present location      
+ls--->list-->used print the files or folders in that location
+ls -a--->used to print the hidden files or folders
+cd----> change directory --->used to move from one directory to other directory
+cd .. --->come back to previous directory 
+adduser username--->to create new user
+exit ---> command used to change from root user to standard user  
+yum install 
+sudo yum install 
+mkdir foldername--->make directory-->used to create a new folder  
+touch filename--->this command is used create simple 1byte file
+touch filename filename--->to create multiple files at a time 
+to hide a file or folder just we have to give a . before the name of the folder or file
+eg:mkdir .sai
+   touch .ravi
+man ---> manual--> this command give us the information of any command
+eg: man ls
+ls path---> give the list of that path 
+eg: ls /var/
+clear---> to clear the screen 
+history---> that display the commends that you used today 
+rm filename ---> command used to delete file
+rmdir foldername---> command used to delete folder(if directory is not empty it wont delete)
+rm -r foldername--->delete recursively 
+rm -rf foldername--->delete recursively forcefully
+cp sourcefile destination --->used to copy a file first give the command cp and the give the file name which you want to and then give filename where you want to past it
+mv sourcefile destination--->used for cut copy 
+mv name rename--->used for rename the file
+=====================================================================================================================
+EDITOR OPPTIONS
+cat filename----> to see the data in the file
+more filename---->to see the data in the file
+===================================================================================================================
+VM EDITOR:-
+vim filename---->used to edit the file(after opening the file press the insert then you write in the file or edit the file then after click on esc then you will come back and to save the data that you edited click on :wq you will return to original page)
+:wq--> write and quit
+:q!---> forcefully quit
+o: Open up a new line following the current line and add text there.
+k : Moves the cursor up one line
+j : Moves the cursor down one line
+X : Delete character
+dw : Delete word from cursor on
+db : Delete word backward
+dd : Delete line
+d$ : Delete to end of line
+nG : Cursor goes to the specified (n) line
+:set number: Sets Number for lines
+:set no number: to remove line numbers
+===================================================================================================================
+head -n 2 filename----->give the top 2 lines of file(you can change the 2 to any number that you want ex:-1,2,3,4,5)
+tail -n 2 filename----->give the bottom 2 lines of file   
+sort filename---->sorts the data in the file in the alphabetic order
+zip namethefile file1thatyouwanttoadd file2thatyouwanttoadd--->(used to create a zip file)
+eg:-zip ravi sai.text ram.text Rahul.text
+unzip zipfilename--->used to unzip the file
+ex:-unzip ravi
+===================================================================================================================
+ls -ll-->show the list with the properties 
+[drwxrwxr-x 5 ec2-user 198 may 22 13:20 media
+d(file type) directory
+rwx(user access) read write execute 
+rwx(group access) read write execute
+r-x(other)
+5(files that are linked)
+ec2-user(name of the user)
+198(size)
+22 13:20 (date of last modified)
+media(name of the file)]
+[- rw- r-- r-- 1 root 0 may 23 2:12 a.text
+ -(file type)file
+remaining all are same as above]
+===================================================================================================================
+changing the permissions :-
+we have three type of permissions they are read , write and execution 
+we give this permissions to the root user , group and others
+the permissions are given in two ways one is numerical and alphabet  
+NUMERICAL:-
+r_ _ = 2^2 =4
+_ w _= 2^1 =2 
+_ _ X= 2^0 =1
+rwx=4+2+1=7
+r_x=4+1=5
+in the same way different permissions are given
+chmod 777 filename--->the command used to give the permissions
+                   first 7 is for the user purpose
+                    second 7 is for the group  purpose
+                    third 7 is for the other purpose 
+ex: chmod 741 filename---> user has all permissions wrx
+                  group has only write permission w_ _
+                  other has only execution permission_ _ x
+ALPHABET:
+= ..>to set permissions
++ ..>to add permissions
+- ..>to remove permissions
+a ..>everyone / all
+u ...>user
+g ..>group
+o ..>other
+ex: chmod a=rwx filename--> giving all permissions
+    chmod g=wx filename ---> giving w_ x permission for group
+=================================================================================================================== 
+user management:-
+Create a New User:  sudo adduser <username>
+set Password for the User: sudo passwd <username>
+Add User to a Group: sudo usermod -aG <groupname> <username>
+Change User Information: sudo chfn <username>
+Change User's Primary Group:sudo usermod -g <groupname> <username>
+Add User to Additional Groups:sudo usermod -aG <groupname1>,<groupname2> <username>
+Change Username:sudo usermod -l <newusername> <oldusername>
+Remove User:sudo userdel <username>
+List All Users:cat /etc/passwd
+View Groups for a User:groups <username>
+View Specific User Information:id <username>
+Create a New Group:sudo groupadd <groupname>
+Delete a Group:sudo groupdel <groupname>
+Grant Sudo Privileges to a User:sudo usermod -aG sudo <username>(give all the permissions that root user has but we need to use the sudo before every command and it add us wheel group)
+Revoke Sudo Privileges from a User:sudo gpasswd -d <username> sudo
+===================================================================================================================
+
+
+  
