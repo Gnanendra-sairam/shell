@@ -1,0 +1,712 @@
+Topics of Shell Scripting:
+=========================
+
+1) Print (echo):
+==============
+Used to display output on the terminal.
+ex: echo "Hello World!"
+ex: name="Sairam"
+    echo "Hello $name"
+echo prints text or variable values
+Use $ to access variable value
+
+2) Read (User Input)
+====================
+Used to take input from the user.
+ex: read -p "Enter your name: " name
+    echo "Hello $name"
+-p → prompt message
+name → variable storing input
+
+3) Arguments ($1, $2, ...)
+==========================
+Used to pass values from command line while running script.
+ex    : # script.sh
+        echo "Name: $1"
+        echo "Age: $2"
+run   : ./script.sh Sairam 21
+output: Name: Sairam
+        Age: 21
+
+4) Variables:
+============
+used to store the values. No space around = ,Always use $ while accessing
+ex :name="Sairam"
+    age=21
+    echo "Name: $name"
+    echo "Age: $age"
+
+note:
+echo $0   # script name
+echo $1   # first argument
+echo $2   # second argument
+echo $#   # number of arguments
+echo $?   # last command exit status
+echo $$   # process ID
+
+echo $?   # last command exit status we use this command tells whether the last command executed successfully or failed if output of this command is 0 then there is no error else there is error. 
+
+5) Conditional Statements (if, elif, else):
+==========================================
+
+1) Basic if statement:
+
+   if [ condition ]
+   then
+     commands 
+   fi
+
+ex: x=10
+    if [ $x -eq 10 ]
+    then
+      echo "x is 10"
+    fi
+
+2) if-else
+
+   if [ condition ]
+   then 
+     commands
+   else
+     commands
+   fi
+
+ex: x=5
+    if [ $x -gt 10 ]
+    then
+      echo "Greater"
+    else
+      echo "Smaller"
+    fi
+
+3) if-elif-else
+  
+   if [ condition ]
+   then 
+     commands
+   elif [ condition ]
+   then 
+     commands
+   else
+     commands
+   fi
+
+ex: x=20
+    if [ $x -eq 10 ]
+    then
+      echo "Ten"
+    elif [ $x -eq 20 ]
+    then
+      echo "Twenty"
+    else
+      echo "Other"
+    fi
+
+comparison operators:
+
+1) Numbers:
+   
+   -eq ------->	equal
+   -ne ------->	not equal
+   -gt ------->	greater than
+   -lt ------->	less than
+   -ge ------->	greater or equal
+   -le ------->	less or equal
+
+2) string
+    = -------->	equal
+   != -------->	not equal
+   -z -------->	string is empty
+   -n -------->	string is not empty
+
+note: (common mistakes we make) 
+
+1) Always keep space after [ and before ]
+ex: if [ $x -eq 10 ]
+2)String comparison with quotes. most people don't use quotes they get error
+ex: if [ "$name" = "Sai" ]
+
+logical operators:
+
+AND (&&):
+
+   x=10
+   y=20
+   if [ $x -lt 15 ] && [ $y -gt 10 ]
+   then
+     echo "Both true"
+   fi
+
+OR (||):
+
+    if [ $x -eq 10 ] || [ $y -eq 10 ]
+    then
+      echo "One is true"
+    fi
+
+file conditions:
+ 
+   -f -------->	file exists
+   -d -------->	directory exists
+   -r -------->	readable
+   -w -------->	writable
+   -x -------->	executable
+
+ex:  if [ -f file.txt ]
+     then
+       echo "File exists"
+     fi
+
+6) Loops in Shell Scripting:
+===========================
+  
+1) for loop:
+  Used when you know how many times to run.
+
+we can write for loop in different ways:
+
+1)normal way:
+
+  for i in 1 2 3 4 5
+  do
+    echo $i
+  done
+
+2)Range Style:
+  
+  for i in {1..5}
+  do
+    echo $i
+  done
+
+3)c-style for loop:
+
+  for ((i=1; i<=5; i++)) 
+  do
+    echo $i
+  done
+
+4)loop through files:
+
+  for file in *.txt
+  do
+    echo "Processing $file"
+  done
+
+2)while loop:
+  
+  Used when condition-based looping is needed.
+ 
+ex: i=1
+    while [ $i -le 5 ]
+    do
+      echo $i
+      ((i++))
+    done
+
+Read file line by line (VERY IMPORTANT):
+
+    while read line
+    do
+      echo $line
+    done < file.txt
+
+< file.txt → input comes from this file
+
+7) Array
+=================
+ 
+1)An array is a collection of multiple values stored under one variable.
+
+ex: arr=(10 20 30 40)
+ 
+note: we should use space between the elements not ,  arr=(10,20,30)----># WRONG
+
+2)Access of elements: we can access the elements using the index number
+
+ex: echo ${arr[0]}
+
+to print all the elements of the array we use this command: echo ${arr[@]}
+
+3)to find the length of the array we use: echo ${#arr[@]} 
+
+4)to add elements to array we use: arr+=(50)
+
+5)to modify the elements of the array we use index to call and modify
+ex: arr[1]=200 (index 1 is modified)
+
+6)to delete a element from the array. we use the indexing to call it and delete it
+ex: unset arr[1] (index 1 is removed)
+
+7) loop Through the array:
+
+arr=(10 20 30 40)
+for i in "${arr[@]}"    
+do 
+  echo $i
+done
+
+output: 10
+        20
+        30
+        40
+note: most of people will miss "${arr[@]}" quate while writing the for loop 
+
+8) take array input from the user
+ex: read -a arr
+
+9) we store file names in the array using:
+
+mapfile -t files < <(find . -name "*.txt")
+
+find    → gets file names
+mapfile → stores into array
+-t      → removes newline
+files   → name of array
+
+8) String:
+==============
+
+1)A string is a sequence of characters 
+ex: name="Sairam"
+
+2)to find the length of the string.
+ex: echo ${#name}  
+
+3)Substring(Slicing):
+
+${string:start:length}
+string------>variable name
+start ------>starting index (0-based)
+length------>number of characters
+
+ex: str="Helloworld"
+    echo ${str:0:5}  #Hello
+    echo ${str:5:5}  #World
+
+4)Concatenation:
+this is used to add two or more strings into one string
+ 
+ex: first="Sai"
+    last="ram"
+    full="$first$last"
+    echo $full         #Sairam
+
+5)Replace Text:
+
+ex: str="I love Linux"
+    echo ${str/Linux/Shell}   #"I love Shell"
+
+6)Replace all occurrences:
+
+ex: str="Linux Linux"
+    echo ${str//Linux/Shell}   #Shell Shell
+
+7)remove from beginning part of the string:
+
+ex: file="test.txt"
+    echo ${file#test}   # .txt 
+
+8) remove from end part of the string:
+
+ex: file="test.txt"
+    echo ${file%.txt}   # test
+
+Remove longest match:
+
+ex: path="/home/user/file.txt"
+    echo ${path##*/}   # file.txt
+    echo ${path%%/*}   # (empty)
+
+
+9) Pattern Matching:
+  
+ex: str="I love DevOps"
+    if [[ $str == *"DevOps"* ]]
+    then
+      echo "Found"
+    fi
+* → wildcard (anything)
+
+10) Convert Case:
+
+1)Uppercase
+
+ex: str="hello"
+    echo ${str^^}
+
+2)lowercase
+
+ex: str="HELLO"
+    echo ${str,,}
+
+9)Cron Job:
+===========
+A cron job is a scheduler in Linux that runs commands or scripts automatically at specific times.
+
+The key components of the cron job are cron daemon and crontab(cron table).
+cron Daemon is background service it runs continuously and check any schedulers are present.
+the crontab is the file where you define the jobs each user has own crontab.
+
+To open the cron tab we use this command:
+
+crontab -e (it will open the file and you are in editing mode if you want you can make changes and press ctrl+x and if you want to save changes press y or else press n and then press enter)
+
+to list the jobs we use the command:
+
+crontab -l
+
+to delete all jobs we use the command:
+
+crontab -r
+
+cron job syntax:
+
+* * * * * command
+│ ││ │ │
+│ ││ │ └── Day of Week (0–7) (Sun=0 or 7)
+│ ││ └──── Month (1–12)
+│ │└────── Day of Month (1–31)
+│ └──────── Hour (0–23)
+└────────── Minute (0–59)
+ 
+some examples:
+
+0 0 1 * * command  #runs Every 1st of month at midnight
+
+0 18 * * 0 command #runs Every Sunday at 6 PM
+
+0 10 * * * command #runs Every day at 10 AM
+
+*/5 * * * * command #runs Every 5 minutes
+
+* * * * * command   #runs every minute
+
+0 9,13,18 * * * command #runs at 9 AM, 1 PM, and 6 PM every day 
+
+0 9-17 * * * command  #Runs every hour from 9 AM to 5 PM
+
+note:
+, ---->	Multiple values (1,2,3)
+- ---->	Range (1-5)
+/ ---->	Step (*/5)
+
+the syntax run a cron job to script and save output at one file is:
+
+* * * * * /home/script.sh >> /home/output.sh
+   |           |                  |
+ cron job   location of script   location where to save output.
+
+10)pipe( | )
+============
+A pipe (|) connects two or more commands.
+ex: command1 | command2
+output of command1 become the input of command2
+
+ex:cat file.txt | grep "error"   #print all the lines that has error 
+
+11)Redirection in shell:
+========================
+note:
+Linux has three standard streams:
+
+Number	 Name	  Description
+0	 STDIN	  input
+1	 STDOUT	  normal output
+2	 STDERR	  error output
+
+1) > (Overwrite Output):
+it overwrite the file content with the output of command.
+ex: command > file.txt
+
+note: it will redirect only the normal output.
+
+2) >> (Append Output):
+it will add output to the file but it will not overwrite the output it will just append the output to file.
+ex: command >> file.txt 
+
+note: it will redirect only the normal output
+
+3) 2> (Error redirection):
+it will store only errors from the output to the file. here 2 represents STDERR
+ex: command 2> file.txt
+
+4) 2>&1 (combine(normal output + error)):
+by using this we can store the normal output and the error output to a file.
+ex: command > file.txt 2>&1
+
+12)Chaining Commands:
+====================
+running multiple commands in sequence with conditions.
+
+1); (Sequential Execution):
+Runs both commands regardless of success or failure
+syntax: command1 ; command2
+ex: mkdir test ; cd test
+
+2)&& (AND Operator):
+command2 runs only if command1 succeeds.
+syntax: command1 && command2
+ex: mkdir test && cd test
+
+3)|| (OR Operator):
+command2 runs only if command1 fails.
+syntax: command1 || command2
+ex:mkdir test || echo "Directory already exists"
+
+
+13)Text processing:
+==================
+1) cut : the cut is used to separate the Column's from the text. we can separate the character's or the words(fields).
+
+first lets look at the characters:
+ex: echo "my name is Sairam" | cut -c2    #y
+    echo "my name is Sairam" | cut -c2,10 #ys
+    echo "my name is Sairam" | cut -c2-6  #y nam
+    echo "my name is Sairam" | cut -c10-  # Sairam
+now lets look at words(fields):
+ex: echo "my name is Sairam" | cut -d " " -f1    #my
+    echo "my name is Sairam" | cut -d " " -f1,2  #my name
+    echo "my name is Sairam" | cut -d " " -f1-3  #my name is
+    echo "my name is sairam" | cut -d " " -f3-   #sairam
+-d " " --> A delimiter is a character that separates data into parts (fields/columns). in the above example the space " " will separeate into the different parts and it can be any thing not only " "
+ex: echo "user:sairam:rool:23" |cut -d ":" -f1 #user 
+
+2) Head ,middle, tail:
+
+hear also we have to things one is lines (-n) and the other is characters(-c) let us take file name as logs.txt for example. 
+
+ex:  head -n 10 logs.txt  #it will print the first 10 lines of file
+     head -c 10 logs.txt  #it will print the first 10 characters of file
+     tail -n 10 logs.txt  #it will print the last 10 lines of the file
+     tail -c 10 logs.txt  #it will print the last 10 characters of the file 
+now we need the middle lines from 6 to 10
+     head -n 10 logs.txt | tail -n 5
+ head will give first 10 line output to next command then next command is tail it will take last 5 line from the output of head means 
+(6-10) lines.
+    
+3) tr (Translate / Transform):
+the tr command is used to transform characters: 
+replace characters, delete characters, change case, squeeze the repeated characters.
+
+replace:
+ex: echo "hello world" | tr "o" "a"  #hella warld
+
+delete:
+ex: echo "Hello world" | tr -d "H"   # ello world
+    echo "Hello world" | tr -d "a-z" #H (it will delete all lowercase letters)
+
+change case:
+ex: echo "linux" | tr 'a-z' 'A-Z'   #LINUX
+    echo "LINUX" | tr 'A-Z' 'a-z'   #linux
+
+squeeze the repeated characters:
+ex: echo "hhahha" | tr -s "h" "h"     #haha
+
+complement:
+ex: echo "abc123" | tr -c "0-9" "*"   # ***123
+
+4)sort:
+
+sort file.txt        # alphabetical
+sort -n file.txt     # numeric
+sort -r file.txt     # reverse
+sort -nr file.txt    # numeric reverse
+sort -u file.txt     # unique
+sort -k2 -n file.txt # sort by column (sort all lines by column 2)
+
+5) uniq : 
+
+uniq file.txt         # remove adjacent duplicates
+uniq -c               # count duplicates
+uniq -d               # show duplicates
+uniq -u               # show unique lines
+sort file | uniq      # correct usage
+
+6)paste:
+
+paste file1 file2        # merge side by side
+paste -d "," file1 file2 # custom delimiter
+paste -s file            # single line output
+
+14)Debugging & Safety:
+=====================
+1)set -x (debug mode): Prints each command before executing it.
+
+2)set -e (Exit on Error): Script stops immediately if any command fails
+
+3)set -u (Undefined Variable Check):Throws error if using undefined variable
+
+note: we can use [set -eux] in combination.
+
+15)File extension and shebang statement
+====================================
+1. File Extension
+The file extension is the part of a filename that comes after the dot (.) — it helps identify the file type.
+In shell scripting, the common extension is:
+.sh
+.sh tells users (and editors) that the file contains shell script commands, though Linux actually runs it based on permissions and the shebang, not the extension.
+2. Shebang Statement (#!)
+The shebang (#!) is the first line of a shell script.
+It tells the system which interpreter should execute the script.
+Example:
+#!/bin/bash
+#! → called shebang
+/bin/bash → path to the Bash shell interpreter
+
+16)Grep (global regular expression print):
+=========================================
+grep command search for a particular string/keyword from a file and print lines matching a pattern. it checks line by line and print lines matching given pattern.
+syntax: grep [option] pattern [file_name]
+ex: grep ERROR logs.txt #it will print all the lines that has ERROR in logs.txt file
+
+1)to ignore the uppercase and lowercase while searching.
+ex: grep -i ERROR logs.txt
+2)to search everything except the given string/keyword.
+ex: grep -v ERROR logs.txt
+3)to print how many times does the given keyword present in the file. it will give the count of no.of times does the given keyword is present in the file.
+ex: grep -c ERROR logs.txt
+4)to search for the exact match of keyword in file. what is this exact match if you use [grep do file.txt] it will consider do, doing, done, donald etc .. but if use exact match it will print lines with only do.
+ex: grep -w do file.txt
+5)to print the line no.of given matches of given keyword in the file. that means if we used it will print matching keyword line with the line number in the file.
+ex: grep -n ERROR logs.txt
+6)to search a given keyword in multiple files.
+ex: grep ERROR logs.txt file.txt
+7)to search multiple keywords in a file.
+ex: grep -e ERROR -e do logs.txt (or) egrep "ERROR|do" logs.txt
+8)to search multiple keywords in multiple files.
+ex: grep -e ERROR -e do logs.txt file.txt
+9)to print only file names while matches keyword.
+ex: grep -l ERROR logs.txt file.txt
+10)to get the keyword or pattern from a file and match with another file. that mean it will print file content that matches the another file content.
+ex: grep -f logs.txt file.txt
+11)to print the lines from the file that starts with given keyword.
+ex: grep "^ERROR" logs.txt 
+12)to print the lines from the file that ends with given keyword.
+ex: grep "ERROR$" logs.txt
+13)suppose we have to search for a keyword in all the files of the folder.
+ex: grep -R "error" folder_name/
+14)to show only the matched word
+ex: grep -o "ERROR" logs.txt
+
+17)AWK:
+=======
+awk is used to processing structured text, extracting columns, filtering data, performing calculations. it works line by line and column by column.
+
+syntax: awk option 'pattern {action}' file_name
+        echo "Hello" | awk option 'pattern {action}'
+ 
+ex: awk '{print $2}' file.txt #it print the 2nd Coolum of the file.txt 
+
+how does awk works?
+the awk scan the file you provided it scan first line by line as rows and it scan every word of the line as field by considering space as separator.
+some predefined terms in the awk are
+NR ---> no.of rows or lines
+NF ---> no.of fields(words per row space is used as separator)
+$0 ---> print all
+$1,$2----> print certain field(Column) 
+
+1)print only given Column 
+ex: awk '{print $2}' file.txt #it print the 2nd column of file.txt
+2)print multiple column
+ex: awk '{print $2, $4, $1}' file.txt
+3)print last column 
+ex: awk '{print $NF}' file.txt
+4)print line number at the start of each line.
+ex: awk '{print NR, $0}' file.txt
+5)print only given line number. lets take you want to print the line 6.
+ex: awk 'NR==6 {print $0}' file.txt 
+6)print range of lines. lets take if you want to print line 5-10 in a file.
+ex: awk 'NR==5,NR==10 {print $a}' file.txt
+7)get line number of empty line
+ex: awk 'NF==0 {print NR}' file.txt
+8)check that given character is present in column or not.
+ex: awk '$3 ~ /sai/ {print $0}' file.txt #it will print lines where sai is present in the column 3.
+
+now we are working with csv file.
+note: in csv file the words are not separated with the space they are separated with the ,
+
+1)now the task is print the 2n column of csv file to do this we use delimiter and tell the fields are separated with ,
+ex: awk -F, '{print $2}' emp.csv  
+2)print employs who's sealery is grater then 50k.
+ex: awk -F, '$NF>50000 {print $0}' emp.csv 
+note: in the last column we have the sealery details
+
+what if file has multiple delimiter. 
+ex: awk -F[,:-] '{print $3}' file.tsxt
+
+how to read the logs in the range of time.
+we have log file in that first column is month and second column is date and third column is time. now task is print logs in certain time period.
+ex: awk '$3>="01:05:55" && $3<="01:05:56"'
+
+functions:
+
+how to replace a word.
+to replace a word we use the inbuilt function of the grep that is gsub(global substitute). now we want to change a word do to did. 
+ex: awk '{gsub("do","did"); print $0}' file.txt
+
+to find the length of the line or field.
+to get the length we use the inbuild function called length
+ex: awk '{print length($2)}' file.txt
+we get the length of the word in column 2.
+
+to get length of the line.
+ex: awk '{print length($0)}' file.txt
+
+to get the index or position of word in the given line.
+ex: awk '/word/{print NR, index($0, "word")}' file.txt
+
+to print the output in lowercase or uppercase.
+ex: awk '{print toupper($3)}' sample.txt
+ex: awk '{print tolower($3)}' sample.txt
+
+awk scripting concept BEGIN,END:
+syntax: awk
+           'BEGIN{start_action}
+                 pattern/condition {action}
+            END{stop_action}"
+        file_name
+
+we have a file and in that file we have information about employs and in last column we have the salary of employee. 
+ex: awk 'BEGIN{sum=0} {sum=  sum+$NF} END{print sum}' file.txt
+
+note: in awk there is no need to declare the variables or assign the variables you can directly use them or print them with out declaring 
+ex: awk '{sum=sum+$NF} END{print sum}' file.txt
+
+task is to find the average salary of employs.
+ex: awk 'NR>1 {if ($NF>0)count++;sum+=$NF} END{print sum/count}' file.text
+ 
+what we did above is we are counting number of rows by eliminating the  rows with zero filed for this we use the if statement and we are eliminating the first row because it is heading of file so then we get the count of employs
+
+using conditions:
+
+1)get the longest line of file.
+ex: awk 'BEGIN{long_line=length($0)} {if(length($0)>long_line) long_line=length($0)} END{print long_line}' file.txt
+2)print high for salary >50K or else No
+ex: awk '{if($NF>50000) $7="high"; else $7="low"; print $0}' file.txt
+3)print salary of loan department.
+ex: awk '{if ($4=="Loan") count=count+$NF} {print count}' file.txt
+
+using awk condition patterns in a file:
+
+add your conditions and pattern in a file lets say file.awk
+ex: awk -f file.awk file_name
+
+18)SED:
+======
+ 
+  
+
+
+
+ 
+ 
+ 
+
+
+
+
+
+
+
+ 
