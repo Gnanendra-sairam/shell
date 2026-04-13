@@ -23,11 +23,12 @@ fi
 error_patterns=("error" "fatal" "critical")
 modified_files=(find "$LOG_DIR" -type f -name "*.log" -mmin -60)
 for file in $modified_files
-echo "Analyzing $file..."
 do
+echo "Analyzing $file..."
     for pattern in "${error_patterns[@]}"
-    echo "Searching for '$pattern' in $file..."
     do
+    echo "Searching for '$pattern' in $file..."
+    
         echo "Count of '$pattern' in $file: "
         grep -c "$pattern" "$file"
 
