@@ -27,7 +27,7 @@
 ###############################################################
 
 # Check if the correct number of arguments is provided
-if [ "$#" -ne 2]
+if [ "$#" -ne 2 ]
 then
     echo "usage: $0 <region_name> <service_name>"
     exit 1
